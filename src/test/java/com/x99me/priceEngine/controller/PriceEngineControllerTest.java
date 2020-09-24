@@ -1,7 +1,7 @@
-package com.x99me.priceEngine;
+package com.x99me.priceEngine.controller;
 
 import com.x99me.priceEngine.controller.service.ProductService;
-import com.x99me.priceEngine.dao.Product.ProductDAO;
+import com.x99me.priceEngine.dao.ProductDAO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;

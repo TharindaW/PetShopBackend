@@ -1,6 +1,6 @@
 package com.x99me.priceEngine;
 
-import com.x99me.priceEngine.dto.Product.Product;
+import com.x99me.priceEngine.dto.Product;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

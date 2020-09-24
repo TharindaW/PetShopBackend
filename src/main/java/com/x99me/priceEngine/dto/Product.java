@@ -1,4 +1,4 @@
-package com.x99me.priceEngine.dto.Product;
+package com.x99me.priceEngine.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
