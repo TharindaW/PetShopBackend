@@ -20,8 +20,8 @@ import java.util.Arrays;
  * @since 9/22/2020 6:14 PM
  */
 @RunWith(SpringRunner.class)
-@WebMvcTest
-public class PriceEngineControllerTest
+@WebMvcTest(controllers = ProductController.class)
+public class ProductControllerTest
 {
 	@Autowired
 	private MockMvc mockMvc;

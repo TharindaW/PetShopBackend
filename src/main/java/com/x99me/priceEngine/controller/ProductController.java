@@ -31,11 +31,12 @@ public class ProductController
 	}
 
 	@GetMapping("/products")
-	public ResponseEntity<List<Product>> getProduct()
+	public ResponseEntity<List<Product>> getProduct() throws InterruptedException
 	{
 		List<ProductDAO> products = productService.getProducts();
 		List<Product> productList = products.stream().map( this::productMapper ).collect( Collectors.toList() );
 
+		Thread.sleep( 3000 );
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.add( "Access-Control-Allow-Origin", "http://localhost:4200" );
 
@@ -55,6 +56,7 @@ public class ProductController
 		product.setRare( productDAO.isRare() );
 		product.setUnitPerCarton( productDAO.getUnitPerCarton() );
 		product.setCartonPrice( productDAO.getCartonPrice() );
+		product.setImageURL( productDAO.getImageURL() );
 
 		return product;
 	}

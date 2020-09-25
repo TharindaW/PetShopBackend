@@ -35,6 +35,9 @@ public class ProductDAO
 	@Column(name = "carton_price")
 	private BigDecimal cartonPrice;
 
+	@Column(name = "img_url")
+	private String imageURL;
+
 
 	public ProductDAO( int productId, String name, boolean rare )
 	{

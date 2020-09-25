@@ -22,4 +22,6 @@ public class Product
 
 	private Short unitPerCarton;
 	private BigDecimal cartonPrice;
+
+	private String imageURL;
 }
