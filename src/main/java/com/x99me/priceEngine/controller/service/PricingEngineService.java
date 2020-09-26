@@ -68,18 +68,26 @@ public class PricingEngineService
 		log.info( productDAO.toString() );
 		PriceResult priceResult = new PriceResult();
 
+		System.out.println( "Req : carton = " + carton + " unit = " + unit );
 		int newCarton = carton +  unit / productDAO.getUnitPerCarton();
 		int newUnit = unit % productDAO.getUnitPerCarton();
+
+		System.out.println( "New : carton = " + newCarton + " unit = " + newUnit );
 
 		priceResult.setCartons( newCarton );
 		priceResult.setUnits( newUnit );
 
-		BigDecimal cartonPrice = productDAO.getCartonPrice().multiply( BigDecimal.valueOf( newCarton ) )
-				.multiply( (newCarton >=3) ? BigDecimal.valueOf( 0.9 ) : BigDecimal.valueOf( 1 ) );
+		BigDecimal discountFactor = ( newCarton >= 3 ) ? BigDecimal.valueOf( 0.9 ) : BigDecimal.valueOf( 1 );
 
+		BigDecimal cartonPrice = productDAO.getCartonPrice().multiply( BigDecimal.valueOf( newCarton ) )
+				.multiply( discountFactor );
+
+		System.out.println( "Carton Price : " + cartonPrice + " | x " + discountFactor );
 		BigDecimal unitPrice = BigDecimal.valueOf( newUnit ).multiply(
 				productDAO.getCartonPrice().divide( BigDecimal.valueOf( productDAO.getUnitPerCarton() ), 2, RoundingMode.HALF_EVEN )
 		).multiply( BigDecimal.valueOf( 1.3 ) );
+
+		System.out.println( "Unit Price : " + unitPrice );
 
 		priceResult.setPrice( unitPrice.add( cartonPrice ) );
 
