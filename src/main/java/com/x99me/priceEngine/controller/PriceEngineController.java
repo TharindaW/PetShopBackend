@@ -21,16 +21,32 @@ public class PriceEngineController
 	@Autowired
 	private PricingEngineService pricingEngineService;
 
-	@CrossOrigin
-	@GetMapping("/calculate")
-	private ResponseEntity<PriceResult> calculate( @RequestParam(required = true) ProductForm productForm,
+
+	@Deprecated
+	private ResponseEntity<PriceResult> calculateOld( @RequestParam(required = true) ProductForm productForm,
 												   @RequestParam(required = true) int qty,
 												   @RequestParam(required = true) int productId )
 	{
 		PriceResult calculate = pricingEngineService.calculate( productForm, qty, productId );
 
 		//HttpHeaders httpHeaders = new HttpHeaders();
-//		httpHeaders.add( "Access-Control-Allow-Origin", "http://localhost:4200" );
+		//		httpHeaders.add( "Access-Control-Allow-Origin", "http://localhost:4200" );
+
+		return ResponseEntity.ok().body( calculate );
+
+	}
+
+
+	@CrossOrigin
+	@GetMapping("/calculate")
+	private ResponseEntity<PriceResult> calculate( @RequestParam(required = true) int carton,
+												   @RequestParam(required = true) int unit,
+												   @RequestParam(required = true) int productId )
+	{
+		PriceResult calculate = pricingEngineService.calculate( carton, unit, productId );
+
+		//HttpHeaders httpHeaders = new HttpHeaders();
+		//		httpHeaders.add( "Access-Control-Allow-Origin", "http://localhost:4200" );
 
 		return ResponseEntity.ok().body( calculate );
 

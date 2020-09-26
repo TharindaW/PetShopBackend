@@ -23,6 +23,7 @@ public class PricingEngineService
 	@Autowired
 	private ProductService productService;
 
+	@Deprecated
 	public PriceResult calculate( ProductForm form, int qty, int productId )
 	{
 		ProductDAO productDAO = productService.getProduct( productId );
@@ -55,6 +56,32 @@ public class PricingEngineService
 
 			System.out.println();
 		}
+
+		log.info( "Request reached to the service" );
+		return priceResult;
+	}
+
+	public PriceResult calculate( int carton , int unit, int productId )
+	{
+		ProductDAO productDAO = productService.getProduct( productId );
+
+		log.info( productDAO.toString() );
+		PriceResult priceResult = new PriceResult();
+
+		int newCarton = carton +  unit / productDAO.getUnitPerCarton();
+		int newUnit = unit % productDAO.getUnitPerCarton();
+
+		priceResult.setCartons( newCarton );
+		priceResult.setUnits( newUnit );
+
+		BigDecimal cartonPrice = productDAO.getCartonPrice().multiply( BigDecimal.valueOf( newCarton ) )
+				.multiply( (newCarton >=3) ? BigDecimal.valueOf( 0.9 ) : BigDecimal.valueOf( 1 ) );
+
+		BigDecimal unitPrice = BigDecimal.valueOf( newUnit ).multiply(
+				productDAO.getCartonPrice().divide( BigDecimal.valueOf( productDAO.getUnitPerCarton() ), 2, RoundingMode.HALF_EVEN )
+		).multiply( BigDecimal.valueOf( 1.3 ) );
+
+		priceResult.setPrice( unitPrice.add( cartonPrice ) );
 
 		log.info( "Request reached to the service" );
 		return priceResult;

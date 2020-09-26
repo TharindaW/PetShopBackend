@@ -34,10 +34,10 @@ public class PriceEngControllerTest
 	public void testDoPriceEndpoint() throws Exception
 	{
 
-		Mockito.when( this.pricingEngineService.calculate( ProductForm.CARTON, 2, 1 ) )
+		Mockito.when( this.pricingEngineService.calculate( 1, 0, 1 ) )
 				.thenReturn( new PriceResult( BigDecimal.valueOf( 825.00 ), 1, 0, "No Discount" ) );
 
-		mockMvc.perform( MockMvcRequestBuilders.get( "/calculate?productForm=CARTON&qty=2&productId=1" ) )
+		mockMvc.perform( MockMvcRequestBuilders.get( "/calculate?carton=1&unit=0&productId=1" ) )
 				.andExpect( MockMvcResultMatchers.status().isOk() )
 				.andExpect( MockMvcResultMatchers.jsonPath( "price" ).value( "825.0" ) )
 				.andExpect( MockMvcResultMatchers.jsonPath( "cartons" ).value( "1" ) )
