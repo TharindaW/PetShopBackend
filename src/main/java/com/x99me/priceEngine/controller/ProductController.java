@@ -6,6 +6,7 @@ import com.x99me.priceEngine.dto.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +24,7 @@ public class ProductController
 	@Autowired
 	private ProductService productService;
 
+	@CrossOrigin
 	@GetMapping("/products/{id}")
 	public Product getProduct( @PathVariable int id )
 	{
@@ -30,19 +32,18 @@ public class ProductController
 		return productMapper( productDAO );
 	}
 
+	@CrossOrigin
 	@GetMapping("/products")
 	public ResponseEntity<List<Product>> getProduct() throws InterruptedException
 	{
 		List<ProductDAO> products = productService.getProducts();
 		List<Product> productList = products.stream().map( this::productMapper ).collect( Collectors.toList() );
 
-		Thread.sleep( 3000 );
-		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.add( "Access-Control-Allow-Origin", "http://localhost:4200" );
+		Thread.sleep( 10 );
+//		HttpHeaders httpHeaders = new HttpHeaders();
+//		httpHeaders.add( "Access-Control-Allow-Origin", "http://localhost:4200" );
 
-		return ResponseEntity.ok()
-				.headers( httpHeaders )
-				.body( productList );
+		return ResponseEntity.ok().body( productList );
 
 
 	}
@@ -56,7 +57,7 @@ public class ProductController
 		product.setRare( productDAO.isRare() );
 		product.setUnitPerCarton( productDAO.getUnitPerCarton() );
 		product.setCartonPrice( productDAO.getCartonPrice() );
-		product.setImageURL( productDAO.getImageURL() );
+		product.setImg( productDAO.getImageURL() );
 
 		return product;
 	}
